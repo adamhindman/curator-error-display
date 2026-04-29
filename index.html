@@ -1,0 +1,796 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Validating while typing</title>
+        <link rel="stylesheet" href="styles.css" />
+    </head>
+    <body>
+        <!--<a href="test1.html">test1</a>-->
+        <div id="project-header">
+            <div class="project-header-left">
+                <div class="project-title">
+                    Fake Project Header <span class="star-icon">☆</span>
+                </div>
+                <div class="project-meta">
+                    <span class="meta-item"
+                        >Project SynID <span class="info-icon">ⓘ</span>
+                        <span class="meta-value">syn12345678</span></span
+                    >
+                    <span class="meta-item"
+                        >DOI <span class="info-icon">ⓘ</span>
+                        <span class="meta-value">Create DOI</span></span
+                    >
+                    <span class="meta-item"
+                        >Project Storage Location
+                        <span class="info-icon">ⓘ</span>
+                        <span class="meta-value">Synapse Storage</span></span
+                    >
+                </div>
+            </div>
+            <div class="project-header-right">
+                <button class="header-btn">? Project Support</button>
+                <button class="header-btn">❝ Cite As... ▾</button>
+                <button class="header-btn header-btn-outline">
+                    Project Tools ⋮
+                </button>
+            </div>
+        </div>
+        <div id="tabs">
+            <div class="tab">Wiki</div>
+            <div class="tab active">Files</div>
+            <div class="tab">Datasets</div>
+            <div class="tab">Tables</div>
+            <div class="tab">Discussion</div>
+            <div class="tab">Docker</div>
+        </div>
+        <div id="errors-list">
+            <div class="errors-list-header">
+                <div class="error-summary-controls">
+                    <!-- New wrapper for count and toggle button -->
+                    <h4>Validation errors</h4>
+                    <p id="error-count-display" class="error-count"></p>
+                    <button
+                        id="toggle-errors-visibility-btn"
+                        class="button-as-link error-list-toggle-btn"
+                    >
+                        Expand
+                    </button>
+                </div>
+                <div id="focused-error-msg"></div>
+                <div class="error-navigation-controls">
+                    <!-- Prev/Next buttons remain here -->
+                    <span
+                        class="tooltip"
+                        data-tooltip="Shortcut: Ctrl-[ (windows) or Cmd-[ (mac)"
+                    >
+                        <button id="prev-error-btn" title="Previous Error" tool>
+                            Prev Error
+                        </button>
+                    </span>
+
+                    <span
+                        class="tooltip"
+                        data-tooltip="Shortcut: Ctrl-] (windows) or Cmd-] (mac)"
+                    >
+                        <button id="next-error-btn" title="Next Error">
+                            Next Error
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <!-- End of errors-list-header -->
+            <!-- The UL for errors will be dynamically added/found here by JavaScript -->
+        </div>
+        <div id="grid-actions">
+            <div class="grid-actions-center">
+                <button class="btn-icon undo" title="Undo">
+                    <span>↺</span>
+                </button>
+                <button class="btn-icon redo" title="Redo">
+                    <span>↻</span>
+                </button>
+                <div class="editors-group">
+                    <span class="editors-label">Editors</span>
+                    <span class="editor-avatars">
+                        <span class="avatar">A</span>
+                        <span class="avatar">B</span>
+                        <span class="avatar">C</span>
+                    </span>
+                    <span class="editors-count">4</span>
+                </div>
+            </div>
+            <div class="grid-actions-right">
+                <button class="btn-action">Open Chat</button>
+                <button class="btn-action">↑ Upload</button>
+                <button class="btn-action">↓ Download</button>
+                <button class="btn-action primary">Apply Changes</button>
+            </div>
+        </div>
+        <div id="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Patient ID <span class="sort-icon">↕</span></th>
+                        <th>Specimen ID <span class="sort-icon">↕</span></th>
+                        <th>Parent ID <span class="sort-icon">↕</span></th>
+                        <th>Platform <span class="sort-icon">↕</span></th>
+                        <th>Tumor Type <span class="sort-icon">↕</span></th>
+                        <th>Disease <span class="sort-icon">↕</span></th>
+                        <th>Species <span class="sort-icon">↕</span></th>
+                        <th>
+                            Specimen Preparation Method
+                            <span class="sort-icon">↕</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>65731357</td>
+                        <td>BS_5129</td>
+                        <td>310</td>
+                        <td></td>
+                        <td>Malignant</td>
+                        <td>Benign</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>90434523</td>
+                        <td>BS_5130</td>
+                        <td>310</td>
+                        <td></td>
+                        <td>Malignant</td>
+                        <td>Benign</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>65731357</td>
+                        <td>BS_7612</td>
+                        <td>424</td>
+                        <td></td>
+                        <td>Benign</td>
+                        <td>Benign</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>53467311</td>
+                        <td>BS_7613</td>
+                        <td>424</td>
+                        <td></td>
+                        <td>Malignant</td>
+                        <td>Squamous Cell Carcinoma</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>92403874</td>
+                        <td>BS_2227</td>
+                        <td>718</td>
+                        <td></td>
+                        <td>Malignant</td>
+                        <td>Benign</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>36345345</td>
+                        <td>BS_2228</td>
+                        <td>718</td>
+                        <td></td>
+                        <td>Malignant</td>
+                        <td>Squamous Cell Carcinoma</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>34235236</td>
+                        <td>BS_2788</td>
+                        <td>962</td>
+                        <td></td>
+                        <td>Malignant</td>
+                        <td>Benign</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>20983475</td>
+                        <td>BS_2789</td>
+                        <td>962</td>
+                        <td></td>
+                        <td>Malignant</td>
+                        <td>Adenocarcinoma</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>63459078</td>
+                        <td>BS_2463</td>
+                        <td>219</td>
+                        <td></td>
+                        <td>Benign</td>
+                        <td>Benign</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>81324869</td>
+                        <td>BS_2464</td>
+                        <td>219</td>
+                        <td></td>
+                        <td>Benign</td>
+                        <td>Squamous Cell Carcinoma</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>81324869</td>
+                        <td>BS_3555</td>
+                        <td>940</td>
+                        <td></td>
+                        <td>Malignant</td>
+                        <td>Benign</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>20983475</td>
+                        <td>BS_3556</td>
+                        <td>940</td>
+                        <td></td>
+                        <td>Benign</td>
+                        <td>Squamous Cell Carcinoma</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>34623145</td>
+                        <td>BS_2295</td>
+                        <td>528</td>
+                        <td></td>
+                        <td>Benign</td>
+                        <td>Benign</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>36345345</td>
+                        <td>BS_2296</td>
+                        <td>528</td>
+                        <td></td>
+                        <td>Malignant</td>
+                        <td>Benign</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>34623145</td>
+                        <td>BS_7878</td>
+                        <td>141</td>
+                        <td></td>
+                        <td>Benign</td>
+                        <td>Benign</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>65731357</td>
+                        <td>BS_7879</td>
+                        <td>141</td>
+                        <td></td>
+                        <td>Malignant</td>
+                        <td>Squamous Cell Carcinoma</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>34623145</td>
+                        <td>BS_1464</td>
+                        <td>984</td>
+                        <td></td>
+                        <td>Benign</td>
+                        <td>Adenocarcinoma</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>90434523</td>
+                        <td>BS_1465</td>
+                        <td>984</td>
+                        <td></td>
+                        <td>Malignant</td>
+                        <td>Benign</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>53467311</td>
+                        <td>BS_3301</td>
+                        <td>672</td>
+                        <td></td>
+                        <td>Benign</td>
+                        <td>Benign</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>92403874</td>
+                        <td>BS_3302</td>
+                        <td>672</td>
+                        <td></td>
+                        <td>Malignant</td>
+                        <td>Squamous Cell Carcinoma</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>47829103</td>
+                        <td>BS_4401</td>
+                        <td>183</td>
+                        <td></td>
+                        <td>Malignant</td>
+                        <td>Adenocarcinoma</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>58203847</td>
+                        <td>BS_4402</td>
+                        <td>183</td>
+                        <td></td>
+                        <td>Benign</td>
+                        <td>Benign</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>65731357</td>
+                        <td>BS_6611</td>
+                        <td>347</td>
+                        <td></td>
+                        <td>Malignant</td>
+                        <td>Squamous Cell Carcinoma</td>
+                        <td>Homo Sapiens</td>
+                        <td>FFPE</td>
+                    </tr>
+                    <tr>
+                        <td>71934820</td>
+                        <td>BS_6612</td>
+                        <td>347</td>
+                        <td></td>
+                        <td>Benign</td>
+                        <td>Benign</td>
+                        <td>Homo Sapiens</td>
+                        <td>FFPE</td>
+                    </tr>
+                    <tr>
+                        <td>29384756</td>
+                        <td>BS_1102</td>
+                        <td>509</td>
+                        <td></td>
+                        <td>Malignant</td>
+                        <td>Large Cell Carcinoma</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>84729301</td>
+                        <td>BS_1103</td>
+                        <td>509</td>
+                        <td></td>
+                        <td>Benign</td>
+                        <td>Benign</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>63920184</td>
+                        <td>BS_8801</td>
+                        <td>762</td>
+                        <td></td>
+                        <td>Malignant</td>
+                        <td>Adenocarcinoma</td>
+                        <td>Homo Sapiens</td>
+                        <td>FFPE</td>
+                    </tr>
+                    <tr>
+                        <td>39201847</td>
+                        <td>BS_8802</td>
+                        <td>762</td>
+                        <td></td>
+                        <td>Malignant</td>
+                        <td>Squamous Cell Carcinoma</td>
+                        <td>Homo Sapiens</td>
+                        <td>FFPE</td>
+                    </tr>
+                    <tr>
+                        <td>72938401</td>
+                        <td>BS_3710</td>
+                        <td>415</td>
+                        <td></td>
+                        <td>Benign</td>
+                        <td>Benign</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>47829103</td>
+                        <td>BS_3711</td>
+                        <td>415</td>
+                        <td></td>
+                        <td>Malignant</td>
+                        <td>Benign</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>90434523</td>
+                        <td>BS_9201</td>
+                        <td>831</td>
+                        <td></td>
+                        <td>Benign</td>
+                        <td>Adenocarcinoma</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>53467311</td>
+                        <td>BS_9202</td>
+                        <td>831</td>
+                        <td></td>
+                        <td>Malignant</td>
+                        <td>Squamous Cell Carcinoma</td>
+                        <td>Homo Sapiens</td>
+                        <td>FFPE</td>
+                    </tr>
+                    <tr>
+                        <td>58203847</td>
+                        <td>BS_5540</td>
+                        <td>276</td>
+                        <td></td>
+                        <td>Benign</td>
+                        <td>Benign</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>71934820</td>
+                        <td>BS_5541</td>
+                        <td>276</td>
+                        <td></td>
+                        <td>Malignant</td>
+                        <td>Adenocarcinoma</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>34623145</td>
+                        <td>BS_7120</td>
+                        <td>693</td>
+                        <td></td>
+                        <td>Benign</td>
+                        <td>Benign</td>
+                        <td>Homo Sapiens</td>
+                        <td>FFPE</td>
+                    </tr>
+                    <tr>
+                        <td>29384756</td>
+                        <td>BS_7121</td>
+                        <td>693</td>
+                        <td></td>
+                        <td>Malignant</td>
+                        <td>Large Cell Carcinoma</td>
+                        <td>Homo Sapiens</td>
+                        <td>FFPE</td>
+                    </tr>
+                    <tr>
+                        <td>84729301</td>
+                        <td>BS_2930</td>
+                        <td>158</td>
+                        <td></td>
+                        <td>Benign</td>
+                        <td>Benign</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>63920184</td>
+                        <td>BS_2931</td>
+                        <td>158</td>
+                        <td></td>
+                        <td>Malignant</td>
+                        <td>Squamous Cell Carcinoma</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>81324869</td>
+                        <td>BS_6040</td>
+                        <td>824</td>
+                        <td></td>
+                        <td>Malignant</td>
+                        <td>Adenocarcinoma</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>39201847</td>
+                        <td>BS_6041</td>
+                        <td>824</td>
+                        <td></td>
+                        <td>Benign</td>
+                        <td>Benign</td>
+                        <td>Homo Sapiens</td>
+                        <td>FFPE</td>
+                    </tr>
+                    <tr>
+                        <td>72938401</td>
+                        <td>BS_1870</td>
+                        <td>503</td>
+                        <td></td>
+                        <td>Malignant</td>
+                        <td>Benign</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>92403874</td>
+                        <td>BS_1871</td>
+                        <td>503</td>
+                        <td></td>
+                        <td>Benign</td>
+                        <td>Squamous Cell Carcinoma</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>47829103</td>
+                        <td>BS_3390</td>
+                        <td>739</td>
+                        <td></td>
+                        <td>Malignant</td>
+                        <td>Large Cell Carcinoma</td>
+                        <td>Homo Sapiens</td>
+                        <td>FFPE</td>
+                    </tr>
+                    <tr>
+                        <td>65731357</td>
+                        <td>BS_3391</td>
+                        <td>739</td>
+                        <td></td>
+                        <td>Benign</td>
+                        <td>Benign</td>
+                        <td>Homo Sapiens</td>
+                        <td>FFPE</td>
+                    </tr>
+                    <tr>
+                        <td>58203847</td>
+                        <td>BS_8110</td>
+                        <td>461</td>
+                        <td></td>
+                        <td>Malignant</td>
+                        <td>Adenocarcinoma</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>36345345</td>
+                        <td>BS_8111</td>
+                        <td>461</td>
+                        <td></td>
+                        <td>Benign</td>
+                        <td>Benign</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>71934820</td>
+                        <td>BS_4750</td>
+                        <td>917</td>
+                        <td></td>
+                        <td>Unknown</td>
+                        <td>Squamous Cell Carcinoma</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>84729301</td>
+                        <td>BS_4751</td>
+                        <td>917</td>
+                        <td></td>
+                        <td>Benign</td>
+                        <td>Benign</td>
+                        <td>Homo Sapiens</td>
+                        <td>FFPE</td>
+                    </tr>
+                    <tr>
+                        <td>34235236</td>
+                        <td>BS_2080</td>
+                        <td>384</td>
+                        <td></td>
+                        <td>Malignant</td>
+                        <td>Adenocarcinoma</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>63920184</td>
+                        <td>BS_2081</td>
+                        <td>384</td>
+                        <td></td>
+                        <td>N/A</td>
+                        <td>Benign</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>20983475</td>
+                        <td>BS_5960</td>
+                        <td>648</td>
+                        <td></td>
+                        <td>Malignant</td>
+                        <td>Large Cell Carcinoma</td>
+                        <td>Homo Sapiens</td>
+                        <td>FFPE</td>
+                    </tr>
+                    <tr>
+                        <td>39201847</td>
+                        <td>BS_5961</td>
+                        <td>648</td>
+                        <td></td>
+                        <td>not recorded</td>
+                        <td>Benign</td>
+                        <td>Homo Sapiens</td>
+                        <td>FFPE</td>
+                    </tr>
+                    <tr>
+                        <td>72938401</td>
+                        <td>BS_7340</td>
+                        <td>225</td>
+                        <td></td>
+                        <td>Malignant</td>
+                        <td>Squamous Cell Carcinoma</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>90434523</td>
+                        <td>BS_7341</td>
+                        <td>225</td>
+                        <td></td>
+                        <td>TBD</td>
+                        <td>Adenocarcinoma</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>47829103</td>
+                        <td>BS_9880</td>
+                        <td>573</td>
+                        <td></td>
+                        <td>Malignant</td>
+                        <td>Benign</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>63459078</td>
+                        <td>BS_9881</td>
+                        <td>573</td>
+                        <td></td>
+                        <td>Benign</td>
+                        <td>Benign</td>
+                        <td>Homo Sapiens</td>
+                        <td>FFPE</td>
+                    </tr>
+                    <tr>
+                        <td>53467311</td>
+                        <td>BS_1650</td>
+                        <td>802</td>
+                        <td></td>
+                        <td>Malignant</td>
+                        <td></td>
+                        <td>Homo Sapiens</td>
+                        <td>FFPE</td>
+                    </tr>
+                    <tr>
+                        <td>58203847</td>
+                        <td>BS_1651</td>
+                        <td>802</td>
+                        <td></td>
+                        <td>Benign</td>
+                        <td></td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>34623145</td>
+                        <td>BS_4120</td>
+                        <td>467</td>
+                        <td></td>
+                        <td>Malignant</td>
+                        <td></td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>71934820</td>
+                        <td>BS_4121</td>
+                        <td>467</td>
+                        <td></td>
+                        <td>Benign</td>
+                        <td></td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>29384756</td>
+                        <td>BS_6880</td>
+                        <td>319</td>
+                        <td></td>
+                        <td>Malignant</td>
+                        <td></td>
+                        <td>Homo Sapiens</td>
+                        <td>FFPE</td>
+                    </tr>
+                    <tr>
+                        <td>84729301</td>
+                        <td>BS_6881</td>
+                        <td>319</td>
+                        <td></td>
+                        <td>Benign</td>
+                        <td>Squamous Cell Carcinoma</td>
+                        <td>Homo Sapiens</td>
+                        <td>FFPE</td>
+                    </tr>
+                    <tr>
+                        <td>36345345</td>
+                        <td>BS_2450</td>
+                        <td>756</td>
+                        <td></td>
+                        <td>Malignant</td>
+                        <td>Benign</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>92403874</td>
+                        <td>BS_2451</td>
+                        <td>756</td>
+                        <td></td>
+                        <td>other</td>
+                        <td>Benign</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>63920184</td>
+                        <td>BS_5230</td>
+                        <td>138</td>
+                        <td></td>
+                        <td>Malignant</td>
+                        <td>Adenocarcinoma</td>
+                        <td>Homo Sapiens</td>
+                        <td>Fresh Frozen</td>
+                    </tr>
+                    <tr>
+                        <td>81324869</td>
+                        <td>BS_5231</td>
+                        <td>138</td>
+                        <td></td>
+                        <td>pending</td>
+                        <td>Benign</td>
+                        <td>Homo Sapiens</td>
+                        <td>FFPE</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <script src="main.js"></script>
+        <button id="add-error-btn" class="floating-btn">☠️ Add an Error</button>
+    </body>
+</html>

@@ -1,0 +1,1747 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Synapse Project Banner v2 — Condensed Proposal</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            /* ── Synapse Design Tokens (from live site) ── */
+            :root {
+                --syn-navy: #2e4761;
+                --syn-teal: #2b688f;
+                --syn-teal-dark: #395979;
+                --syn-green: #469285;
+                --syn-text: #666666;
+                --syn-text-dark: #22252a;
+                --syn-text-muted: #71767f;
+                --syn-text-subtle: #515359;
+                --syn-white: #ffffff;
+                --syn-bg: #ffffff;
+                --syn-bg-muted: #f9fafc;
+                --syn-border: #b0bdc9;
+                --syn-border-light: #dfe2e6;
+                --chip-open-bg: #d1fae5;
+                --chip-open-text: #065f46;
+                --chip-private-bg: #fee2e2;
+                --chip-private-text: #991b1b;
+                --chip-denied-bg: #fef3c7;
+                --chip-denied-text: #92400e;
+                --chip-signin-bg: #e0e7ff;
+                --chip-signin-text: #3730a3;
+                --chip-public-bg: #dbeafe;
+                --chip-public-text: #1e40af;
+                --chip-controlled-bg: #fdf4ff;
+                --chip-controlled-text: #86198f;
+                --font:
+                    "DM Sans", -apple-system, "system-ui", "Segoe UI", Roboto,
+                    "Helvetica Neue", Arial, sans-serif;
+            }
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            body {
+                font-family: var(--font);
+                font-size: 16px;
+                color: var(--syn-text);
+                background: #f0f2f5;
+            }
+
+            /* ── Scenario Switcher ── */
+            .scenario-bar {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 14px 24px;
+                background: var(--syn-navy);
+                color: var(--syn-white);
+                font-size: 13px;
+                font-weight: 500;
+                position: sticky;
+                top: 0;
+                z-index: 100;
+                flex-wrap: wrap;
+            }
+            .scenario-bar label {
+                font-weight: 700;
+                letter-spacing: 0.3px;
+                text-transform: uppercase;
+                font-size: 11px;
+                opacity: 0.7;
+            }
+            .scenario-btn {
+                padding: 5px 14px;
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                border-radius: 4px;
+                background: transparent;
+                color: var(--syn-white);
+                font-family: var(--font);
+                font-size: 13px;
+                cursor: pointer;
+                transition: all 0.15s;
+            }
+            .scenario-btn:hover {
+                background: rgba(255, 255, 255, 0.1);
+            }
+            .scenario-btn.active {
+                background: rgba(255, 255, 255, 0.2);
+                border-color: rgba(255, 255, 255, 0.6);
+                font-weight: 700;
+            }
+
+            /* ── Page Frame ── */
+            .page-frame {
+                max-width: 1200px;
+                margin: 32px auto;
+                border-radius: 10px;
+                overflow: hidden;
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+                border: 1px solid var(--syn-border-light);
+                background: var(--syn-bg);
+            }
+            .page-frame.tall {
+                min-height: 500px;
+            }
+
+            /* ── CURRENT BANNER (before) ── */
+            .current-banner {
+                background: var(--syn-navy);
+                background-image: url("https://s3.amazonaws.com/static.synapse.org/images/SynapseLoginPageBackground.svg");
+                background-size: cover;
+                background-position: center;
+                padding: 24px 40px;
+                color: var(--syn-white);
+            }
+            .current-banner .project-name {
+                font-size: 24px;
+                font-weight: 700;
+                margin-bottom: 10px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            .current-banner .star-icon {
+                cursor: pointer;
+                opacity: 0.7;
+                font-size: 20px;
+            }
+            .current-banner .meta-row {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 20px 40px;
+                font-size: 14px;
+                margin-bottom: 12px;
+            }
+            .current-banner .meta-item label {
+                font-weight: 700;
+                font-size: 14px;
+                display: block;
+                margin-bottom: 2px;
+            }
+            .current-banner .meta-item a {
+                color: var(--syn-white);
+                text-decoration: underline;
+            }
+            .current-banner .data-avail-bar {
+                width: 160px;
+                height: 6px;
+                background: rgba(255, 255, 255, 0.25);
+                border-radius: 3px;
+                margin-top: 4px;
+                overflow: hidden;
+            }
+            .current-banner .data-avail-bar .fill {
+                height: 100%;
+                background: var(--syn-green);
+                border-radius: 3px;
+            }
+            .current-banner .actions-row {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                margin-top: 14px;
+            }
+            .current-banner .btn-outline {
+                border: 1px solid var(--syn-white);
+                border-radius: 3px;
+                background: transparent;
+                color: var(--syn-white);
+                font-family: var(--font);
+                font-size: 14px;
+                font-weight: 900;
+                padding: 6px 12px;
+                cursor: pointer;
+                text-transform: capitalize;
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+            }
+            .current-banner .btn-outline:hover {
+                background: rgba(255, 255, 255, 0.1);
+            }
+            .current-banner .link-white {
+                color: var(--syn-white);
+                font-weight: 700;
+                text-decoration: none;
+                font-size: 16px;
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+            }
+            .current-banner .link-white:hover {
+                text-decoration: underline;
+            }
+
+            /* ── PROPOSED BANNER (after) ── */
+            .proposed-banner {
+                background: var(--syn-navy);
+                background-image: url("https://s3.amazonaws.com/static.synapse.org/images/SynapseLoginPageBackground.svg");
+                background-size: cover;
+                background-position: center;
+                padding: 0 24px;
+                color: var(--syn-white);
+                height: 48px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            /* Star: bare star icon before the title */
+            .proposed-banner .star-bare {
+                background: none;
+                border: none;
+                cursor: pointer;
+                padding: 2px;
+                color: rgba(255, 255, 255, 0.5);
+                display: inline-flex;
+                align-items: center;
+                transition: color 0.15s;
+            }
+            .proposed-banner .star-bare:hover {
+                color: rgba(255, 255, 255, 0.85);
+            }
+            .proposed-banner .star-bare.starred {
+                color: #eab308;
+            }
+            .proposed-banner .star-bare svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            .proposed-banner .project-name {
+                font-size: 18px;
+                font-weight: 700;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                cursor: pointer;
+                max-width: 360px;
+            }
+            .proposed-banner .project-name:hover {
+                text-decoration: underline;
+            }
+
+            /* Chips */
+            .chip {
+                display: inline-flex;
+                align-items: center;
+                gap: 4px;
+                padding: 1px 10px;
+                border-radius: 999px;
+                font-size: 12px;
+                font-weight: 600;
+                white-space: nowrap;
+                line-height: 22px;
+            }
+            .chip svg {
+                width: 13px;
+                height: 13px;
+                flex-shrink: 0;
+            }
+            .chip-public {
+                background: var(--chip-public-bg);
+                color: var(--chip-public-text);
+            }
+            .chip-private {
+                background: var(--chip-private-bg);
+                color: var(--chip-private-text);
+            }
+            .chip-open {
+                background: var(--chip-open-bg);
+                color: var(--chip-open-text);
+            }
+            .chip-denied {
+                background: var(--chip-denied-bg);
+                color: var(--chip-denied-text);
+            }
+            .chip-signin {
+                background: var(--chip-signin-bg);
+                color: var(--chip-signin-text);
+            }
+            .chip-controlled {
+                background: var(--chip-controlled-bg);
+                color: var(--chip-controlled-text);
+            }
+
+            .proposed-banner .spacer {
+                flex: 1;
+            }
+            .proposed-banner .action-group {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
+
+            .proposed-banner .hdr-btn {
+                border: 1px solid rgba(255, 255, 255, 0.35);
+                border-radius: 3px;
+                background: transparent;
+                color: var(--syn-white);
+                font-family: var(--font);
+                font-size: 13px;
+                font-weight: 700;
+                padding: 4px 12px;
+                cursor: pointer;
+                display: inline-flex;
+                align-items: center;
+                gap: 5px;
+                white-space: nowrap;
+                position: relative;
+            }
+            .hdr-btn:hover {
+                background: rgba(255, 255, 255, 0.1);
+            }
+            .hdr-btn.primary {
+                background: rgba(255, 255, 255, 0.15);
+                border-color: rgba(255, 255, 255, 0.5);
+            }
+            .hdr-btn svg {
+                width: 14px;
+                height: 14px;
+            }
+
+            /* ── Dropdowns ── */
+            .dropdown-wrap {
+                position: relative;
+                display: inline-flex;
+            }
+            .dropdown-panel {
+                display: none;
+                position: absolute;
+                top: calc(100% + 6px);
+                right: 0;
+                min-width: 300px;
+                background: var(--syn-bg);
+                border: 1px solid var(--syn-border-light);
+                border-radius: 8px;
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
+                z-index: 60;
+                color: var(--syn-text-dark);
+                padding: 0;
+                overflow: hidden;
+            }
+            .dropdown-wrap.open .dropdown-panel {
+                display: block;
+            }
+            .dropdown-section {
+                padding: 12px 16px 8px;
+            }
+            .dropdown-section-title {
+                font-size: 11px;
+                font-weight: 700;
+                text-transform: uppercase;
+                color: var(--syn-text-muted);
+                letter-spacing: 0.4px;
+                margin-bottom: 8px;
+            }
+            .dropdown-row {
+                display: flex;
+                align-items: baseline;
+                gap: 8px;
+                font-size: 14px;
+                margin-bottom: 6px;
+                line-height: 1.5;
+            }
+            .dropdown-row .label {
+                color: var(--syn-text-muted);
+                font-weight: 500;
+                white-space: nowrap;
+            }
+            .dropdown-row a {
+                color: var(--syn-teal);
+                text-decoration: none;
+                word-break: break-all;
+            }
+            .dropdown-row a:hover {
+                text-decoration: underline;
+            }
+            .avail-bar {
+                width: 100%;
+                height: 5px;
+                background: var(--syn-border-light);
+                border-radius: 3px;
+                overflow: hidden;
+                margin-top: 8px;
+            }
+            .avail-bar .fill {
+                height: 100%;
+                background: var(--syn-green);
+                border-radius: 3px;
+                transition: width 0.3s;
+            }
+            .avail-note {
+                font-size: 11px;
+                color: var(--syn-text-muted);
+                margin-top: 3px;
+            }
+            .dropdown-divider {
+                height: 1px;
+                background: var(--syn-border-light);
+                margin: 0;
+            }
+            .dropdown-menu-item {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                width: 100%;
+                padding: 9px 16px;
+                border: none;
+                background: none;
+                cursor: pointer;
+                font-family: var(--font);
+                font-size: 14px;
+                color: var(--syn-text-dark);
+                text-align: left;
+            }
+            .dropdown-menu-item:hover {
+                background: var(--syn-bg-muted);
+            }
+            .dropdown-menu-item svg {
+                width: 16px;
+                height: 16px;
+                color: var(--syn-text-muted);
+                flex-shrink: 0;
+            }
+            .dropdown-menu-item.danger {
+                color: #dc2626;
+            }
+            .dropdown-menu-item.danger svg {
+                color: #dc2626;
+            }
+
+            /* ── Tab Navigation ── */
+            .tab-nav {
+                display: flex;
+                align-items: stretch;
+                border-bottom: 1px solid var(--syn-border-light);
+                background: var(--syn-bg);
+                padding: 0 24px;
+                gap: 0;
+                overflow-x: auto;
+            }
+            .tab-nav a {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                padding: 14px 16px;
+                font-size: 16px;
+                font-weight: 700;
+                color: var(--syn-text-muted);
+                text-decoration: none;
+                border-bottom: 3px solid transparent;
+                white-space: nowrap;
+                transition: color 0.15s;
+            }
+            .tab-nav a:hover {
+                color: var(--syn-text-dark);
+            }
+            .tab-nav a.active {
+                color: var(--syn-text-dark);
+                border-bottom-color: var(--syn-teal);
+            }
+
+            /* ── Page content ── */
+            .page-content {
+                padding: 24px 40px;
+                min-height: 120px;
+                color: var(--syn-text-muted);
+                font-size: 14px;
+            }
+            .page-content .breadcrumb {
+                font-size: 14px;
+                color: var(--syn-text-muted);
+                margin-bottom: 16px;
+            }
+            .page-content .breadcrumb a {
+                color: var(--syn-teal);
+                text-decoration: none;
+            }
+            .page-content .breadcrumb a:hover {
+                text-decoration: underline;
+            }
+            .page-content .breadcrumb span {
+                margin: 0 6px;
+            }
+
+            /* ── Comparison Layout ── */
+            .comparison-section {
+                max-width: 1200px;
+                margin: 0 auto 12px;
+                padding: 0 16px;
+            }
+            .comparison-label {
+                font-size: 12px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                color: #9ca3af;
+                margin-bottom: 6px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+            .comparison-label .tag {
+                padding: 1px 8px;
+                border-radius: 3px;
+                font-size: 10px;
+                font-weight: 800;
+            }
+            .tag-before {
+                background: #fee2e2;
+                color: #991b1b;
+            }
+            .tag-after {
+                background: #d1fae5;
+                color: #065f46;
+            }
+
+            /* ── Notes panel ── */
+            .notes-panel {
+                max-width: 1200px;
+                margin: 32px auto;
+                padding: 0 16px;
+            }
+            .notes-card {
+                background: var(--syn-bg);
+                border: 1px solid var(--syn-border-light);
+                border-radius: 10px;
+                padding: 24px;
+                margin-bottom: 20px;
+            }
+            .notes-card h2 {
+                font-size: 14px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.4px;
+                color: var(--syn-text-muted);
+                margin-bottom: 14px;
+            }
+            .notes-card p {
+                font-size: 14px;
+                color: var(--syn-text-dark);
+                line-height: 1.7;
+                margin-bottom: 8px;
+            }
+            .notes-card .callout {
+                margin-top: 14px;
+                padding: 12px 16px;
+                background: #f0fdf4;
+                border-left: 3px solid var(--syn-green);
+                border-radius: 4px;
+                font-size: 14px;
+                line-height: 1.6;
+                color: var(--syn-text-dark);
+            }
+            .notes-card .callout-blue {
+                margin-top: 14px;
+                padding: 12px 16px;
+                background: #eff6ff;
+                border-left: 3px solid var(--syn-teal);
+                border-radius: 4px;
+                font-size: 14px;
+                line-height: 1.6;
+                color: var(--syn-text-dark);
+            }
+            .notes-card table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 12px;
+                font-size: 14px;
+            }
+            .notes-card th {
+                text-align: left;
+                padding: 8px 12px;
+                background: var(--syn-bg-muted);
+                border: 1px solid var(--syn-border-light);
+                font-weight: 700;
+                color: var(--syn-text-dark);
+                font-size: 13px;
+            }
+            .notes-card td {
+                padding: 8px 12px;
+                border: 1px solid var(--syn-border-light);
+                color: var(--syn-text-dark);
+                vertical-align: top;
+            }
+            .notes-card td .chip {
+                font-size: 11px;
+                line-height: 20px;
+            }
+
+            .backdrop {
+                display: none;
+                position: fixed;
+                inset: 0;
+                z-index: 50;
+            }
+            .backdrop.show {
+                display: block;
+            }
+            .page-title-bar {
+                max-width: 1200px;
+                margin: 24px auto 4px;
+                padding: 0 16px;
+            }
+            .page-title-bar h1 {
+                font-size: 22px;
+                font-weight: 700;
+                color: var(--syn-text-dark);
+            }
+            .page-title-bar p {
+                font-size: 14px;
+                color: var(--syn-text-muted);
+                margin-top: 4px;
+                line-height: 1.5;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Scenario Switcher -->
+        <div class="scenario-bar">
+            <label>Scenario:</label>
+            <button class="scenario-btn active" onclick="switchScenario(0)">
+                A — My Public Project
+            </button>
+            <button class="scenario-btn" onclick="switchScenario(1)">
+                B — My Private Project
+            </button>
+            <button class="scenario-btn" onclick="switchScenario(2)">
+                C — External, Open Data
+            </button>
+            <button class="scenario-btn" onclick="switchScenario(3)">
+                D — External, Controlled
+            </button>
+            <button class="scenario-btn" onclick="switchScenario(4)">
+                E — External, No Access
+            </button>
+            <button class="scenario-btn" onclick="switchScenario(5)">
+                F — Not Signed In
+            </button>
+        </div>
+
+        <div class="page-title-bar">
+            <h1>Synapse Project Banner v2 — Condensed Proposal</h1>
+            <p>
+                Comparison of current multi-line banner vs. proposed single-line
+                version. Switch scenarios above to see how the banner adapts to
+                different user/project combinations.
+            </p>
+        </div>
+
+        <!-- ═══════ CURRENT (BEFORE) ═══════ -->
+        <div class="comparison-section" style="margin-top: 28px">
+            <div class="comparison-label">
+                <span class="tag tag-before">BEFORE</span> Current ~145px banner
+            </div>
+        </div>
+        <div class="page-frame">
+            <div class="current-banner">
+                <div class="project-name">
+                    <span id="cur-name">hi342892314</span>
+                    <span class="star-icon">&#9734;</span>
+                </div>
+                <div class="meta-row">
+                    <div class="meta-item">
+                        <label>Project SynID &#9432;</label>
+                        <span id="cur-synid">syn73743318 &#128203;</span>
+                    </div>
+                    <div class="meta-item">
+                        <label>DOI</label>
+                        <a id="cur-doi" href="#"
+                            >https://doi.org/10.7303/syn73743318</a
+                        >
+                        &#128203;
+                    </div>
+                    <div class="meta-item">
+                        <label>Project Storage Location</label>
+                        <span>Synapse Storage</span>
+                    </div>
+                    <div class="meta-item">
+                        <label>Data Availability &#9432;</label>
+                        <div class="data-avail-bar">
+                            <div
+                                class="fill"
+                                id="cur-bar"
+                                style="width: 0%"
+                            ></div>
+                        </div>
+                        <span style="font-size: 12px; opacity: 0.7"
+                            >0 — 100 GB</span
+                        >
+                    </div>
+                </div>
+                <div class="actions-row">
+                    <a href="#" class="link-white">
+                        <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        >
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M12 16v-4M12 8h.01" />
+                        </svg>
+                        Project Support
+                    </a>
+                    <button class="btn-outline" style="margin-left: 8px">
+                        <svg
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        >
+                            <path
+                                d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20"
+                            />
+                            <path
+                                d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 5v3"
+                            />
+                        </svg>
+                        Cite Project
+                    </button>
+                    <button class="btn-outline">
+                        Project Tools
+                        <svg
+                            width="12"
+                            height="12"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="3"
+                        >
+                            <path d="M6 9l6 6 6-6" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="tab-nav">
+                <a href="#" class="active">Wiki</a>
+                <a href="#">Files</a>
+                <a href="#">Datasets</a>
+                <a href="#">Tables</a>
+                <a href="#">Discussion</a>
+                <a href="#">Docker</a>
+            </div>
+            <div class="page-content" style="font-style: italic">
+                There is no content. Please click Edit Wiki from the Tools menu.
+            </div>
+        </div>
+
+        <!-- ═══════ PROPOSED (AFTER) ═══════ -->
+        <div class="comparison-section" style="margin-top: 32px">
+            <div class="comparison-label">
+                <span class="tag tag-after">AFTER</span> Proposed ~48px
+                single-line banner
+            </div>
+        </div>
+        <div class="page-frame tall">
+            <div class="proposed-banner" id="proposed-banner">
+                <!-- Star (bare, before title) -->
+                <button
+                    class="star-bare"
+                    id="star-btn"
+                    onclick="toggleStar()"
+                    title="Add to favorites"
+                >
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                    >
+                        <polygon
+                            points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                        />
+                    </svg>
+                </button>
+
+                <!-- Project Name -->
+                <span class="project-name" id="prop-name">hi342892314</span>
+
+                <!-- Visibility Chip -->
+                <span class="chip chip-public" id="vis-chip">
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                    >
+                        <circle cx="12" cy="12" r="10" />
+                        <path
+                            d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+                        />
+                    </svg>
+                    <span>Public</span>
+                </span>
+
+                <!-- Access Chip -->
+                <span class="chip chip-open" id="access-chip">
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                    >
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <polyline points="7 10 12 15 17 10" />
+                        <line x1="12" y1="15" x2="12" y2="3" />
+                    </svg>
+                    <span>Open Data</span>
+                </span>
+
+                <span class="spacer"></span>
+
+                <!-- Actions (right side) -->
+                <div class="action-group">
+                    <!-- Support -->
+                    <a
+                        href="https://sagebionetworks.jira.com/servicedesk/customer/portal/9"
+                        target="_blank"
+                        class="hdr-btn"
+                        title="Get help"
+                        style="text-decoration: none"
+                    >
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        >
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                            <line x1="12" y1="17" x2="12.01" y2="17" />
+                        </svg>
+                        Support
+                    </a>
+
+                    <!-- Project Info Dropdown -->
+                    <div class="dropdown-wrap" id="info-dropdown">
+                        <button
+                            class="hdr-btn"
+                            onclick="toggleDropdown('info-dropdown')"
+                        >
+                            <!-- Folder/project info icon -->
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                            >
+                                <path
+                                    d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"
+                                />
+                            </svg>
+                            Project Info
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2.5"
+                                style="width: 11px; height: 11px"
+                            >
+                                <path d="M6 9l6 6 6-6" />
+                            </svg>
+                        </button>
+                        <div class="dropdown-panel">
+                            <div class="dropdown-section">
+                                <div class="dropdown-section-title">
+                                    Project Details
+                                </div>
+                                <div class="dropdown-row">
+                                    <span class="label">SynID</span>
+                                    <span id="dd-synid">syn73743318</span>
+                                </div>
+                                <div class="dropdown-row">
+                                    <span class="label">DOI</span>
+                                    <a id="dd-doi" href="#"
+                                        >10.7303/syn73743318</a
+                                    >
+                                </div>
+                                <div class="dropdown-row">
+                                    <span class="label">Storage</span>
+                                    <span>Synapse Storage</span>
+                                </div>
+                                <div
+                                    class="dropdown-row"
+                                    style="flex-direction: column; gap: 4px"
+                                >
+                                    <span class="label">Data Availability</span>
+                                    <div class="avail-bar">
+                                        <div
+                                            class="fill"
+                                            id="dd-bar"
+                                            style="width: 0%"
+                                        ></div>
+                                    </div>
+                                    <span class="avail-note" id="dd-avail-note"
+                                        >0% of 100 GB</span
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cite -->
+                    <button class="hdr-btn primary">
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        >
+                            <path
+                                d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20"
+                            />
+                            <path
+                                d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 5v3"
+                            />
+                        </svg>
+                        Cite
+                    </button>
+
+                    <!-- Project Tools Dropdown (matching screenshot exactly) -->
+                    <div class="dropdown-wrap" id="tools-dropdown">
+                        <button
+                            class="hdr-btn"
+                            onclick="toggleDropdown('tools-dropdown')"
+                        >
+                            Tools
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2.5"
+                                style="width: 11px; height: 11px"
+                            >
+                                <path d="M6 9l6 6 6-6" />
+                            </svg>
+                        </button>
+                        <div class="dropdown-panel" style="min-width: 260px">
+                            <div style="padding: 4px 0">
+                                <!-- Group 1: exactly as in screenshot -->
+                                <button class="dropdown-menu-item">
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path
+                                            d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
+                                        />
+                                        <circle cx="9" cy="7" r="4" />
+                                        <path
+                                            d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"
+                                        />
+                                    </svg>
+                                    Project Sharing Settings
+                                </button>
+                                <button class="dropdown-menu-item">
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path
+                                            d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                                        />
+                                        <path
+                                            d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
+                                        />
+                                    </svg>
+                                    Edit Project Metadata
+                                </button>
+                                <button class="dropdown-menu-item">
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path
+                                            d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"
+                                        />
+                                        <line x1="7" y1="7" x2="7.01" y2="7" />
+                                    </svg>
+                                    Annotations
+                                </button>
+                                <button class="dropdown-menu-item">
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <line x1="18" y1="20" x2="18" y2="10" />
+                                        <line x1="12" y1="20" x2="12" y2="4" />
+                                        <line x1="6" y1="20" x2="6" y2="14" />
+                                    </svg>
+                                    Show Project Statistics
+                                </button>
+                                <button class="dropdown-menu-item">
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <ellipse cx="12" cy="5" rx="9" ry="3" />
+                                        <path
+                                            d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"
+                                        />
+                                        <path
+                                            d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"
+                                        />
+                                    </svg>
+                                    Change Project Storage Location
+                                </button>
+                                <button class="dropdown-menu-item">
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <polygon points="5 3 19 12 5 21 5 3" />
+                                    </svg>
+                                    Run Challenge
+                                </button>
+                                <div class="dropdown-divider"></div>
+                                <!-- Group 2 -->
+                                <button class="dropdown-menu-item">
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path
+                                            d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"
+                                        />
+                                        <path
+                                            d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"
+                                        />
+                                    </svg>
+                                    Update DOI for Project
+                                </button>
+                                <button class="dropdown-menu-item">
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path
+                                            d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"
+                                        />
+                                        <polyline
+                                            points="17 21 17 13 7 13 7 21"
+                                        />
+                                        <polyline points="7 3 7 8 15 8" />
+                                    </svg>
+                                    Save Link to Project
+                                </button>
+                                <button class="dropdown-menu-item">
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <circle cx="18" cy="5" r="3" />
+                                        <circle cx="6" cy="12" r="3" />
+                                        <circle cx="18" cy="19" r="3" />
+                                        <line
+                                            x1="8.59"
+                                            y1="13.51"
+                                            x2="15.42"
+                                            y2="17.49"
+                                        />
+                                        <line
+                                            x1="15.41"
+                                            y1="6.51"
+                                            x2="8.59"
+                                            y2="10.49"
+                                        />
+                                    </svg>
+                                    Share this page
+                                </button>
+                                <div class="dropdown-divider"></div>
+                                <!-- Group 3: danger -->
+                                <button class="dropdown-menu-item danger">
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <polyline points="3 6 5 6 21 6" />
+                                        <path
+                                            d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+                                        />
+                                    </svg>
+                                    Delete Project
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tab-nav">
+                <a href="#" class="active">Wiki</a>
+                <a href="#">Files</a>
+                <a href="#">Datasets</a>
+                <a href="#">Tables</a>
+                <a href="#">Discussion</a>
+                <a href="#">Docker</a>
+            </div>
+            <div class="page-content">
+                <div class="breadcrumb">
+                    <a href="#">Files</a><span>&rsaquo;</span
+                    ><span>Datasets related to manuscripts</span>
+                </div>
+                <span style="font-style: italic"
+                    >There is no content. Please click Edit Wiki from the Tools
+                    menu.</span
+                >
+            </div>
+        </div>
+
+        <!-- ═══════ DESIGN NOTES ═══════ -->
+        <div class="notes-panel">
+            <!-- Note 1: Visibility -->
+            <div class="notes-card">
+                <h2>
+                    On Visibility: Private vs. Public (vs. Discoverable / Open?)
+                </h2>
+                <p>
+                    The project creation picker offers four states:
+                    <strong>Private</strong>, <strong>Discoverable</strong>,
+                    <strong>Public</strong>, and <strong>Open</strong>. The
+                    question is whether all four should appear as chips in the
+                    banner.
+                </p>
+                <p>
+                    <strong
+                        >Recommendation: show only Private and Public in the
+                        chip.</strong
+                    >
+                    Here's the reasoning:
+                </p>
+                <table>
+                    <tr>
+                        <th>Creation Setting</th>
+                        <th>Banner Chip</th>
+                        <th>Why</th>
+                    </tr>
+                    <tr>
+                        <td>Private</td>
+                        <td>
+                            <span
+                                class="chip chip-private"
+                                style="font-size: 11px"
+                                ><svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    style="width: 12px; height: 12px"
+                                >
+                                    <rect
+                                        x="3"
+                                        y="11"
+                                        width="18"
+                                        height="11"
+                                        rx="2"
+                                    />
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                                </svg>
+                                Private</span
+                            >
+                        </td>
+                        <td>
+                            Clear — project is hidden from search, only invited
+                            users can see it.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Discoverable</td>
+                        <td>
+                            <span
+                                class="chip chip-public"
+                                style="font-size: 11px"
+                                ><svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    style="width: 12px; height: 12px"
+                                >
+                                    <circle cx="12" cy="12" r="10" />
+                                    <path
+                                        d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+                                    />
+                                </svg>
+                                Public</span
+                            >
+                        </td>
+                        <td>
+                            From a <em>visitor's</em> perspective, discoverable
+                            projects appear in search — they feel public. The
+                            access chip (e.g. "Conditions Required") handles the
+                            nuance that you can't download freely.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Public</td>
+                        <td>
+                            <span
+                                class="chip chip-public"
+                                style="font-size: 11px"
+                                ><svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    style="width: 12px; height: 12px"
+                                >
+                                    <circle cx="12" cy="12" r="10" />
+                                    <path
+                                        d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+                                    />
+                                </svg>
+                                Public</span
+                            >
+                        </td>
+                        <td>
+                            Same chip. The access chip communicates whether data
+                            is freely downloadable or controlled.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Open</td>
+                        <td>
+                            <span
+                                class="chip chip-public"
+                                style="font-size: 11px"
+                                ><svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    style="width: 12px; height: 12px"
+                                >
+                                    <circle cx="12" cy="12" r="10" />
+                                    <path
+                                        d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+                                    />
+                                </svg>
+                                Public</span
+                            >
+                        </td>
+                        <td>
+                            Open = Public + Open Data. The access chip "Open
+                            Data" communicates the rest.
+                        </td>
+                    </tr>
+                </table>
+                <div class="callout">
+                    <strong>Should the owner see a different chip?</strong> The
+                    owner could potentially see the <em>exact</em> setting they
+                    chose (Private / Discoverable / Public / Open) since they
+                    care about how their project is <em>configured</em>.
+                    Visitors only care about what they can <em>do</em>. If you
+                    want this, the owner's chip could show all four states with
+                    a settings gear icon that links to sharing settings. But for
+                    an easy first pass, Private vs. Public is clean and
+                    sufficient.
+                </div>
+            </div>
+
+            <!-- Note 2: Access chips -->
+            <div class="notes-card">
+                <h2>Data Access Chips — Complete Landscape</h2>
+                <p>
+                    Synapse's data access model has these tiers (from
+                    <a
+                        href="https://help.synapse.org/docs/Data-Access-Types.2014904611.html"
+                        style="color: var(--syn-teal)"
+                        >Synapse docs</a
+                    >). I'm proposing we rename the current search badges
+                    slightly to make it clearer these are about
+                    <strong>data download permissions</strong>:
+                </p>
+                <table>
+                    <tr>
+                        <th>Current Search Badge</th>
+                        <th>Proposed Banner Chip</th>
+                        <th>Meaning</th>
+                        <th>When Shown</th>
+                    </tr>
+                    <tr>
+                        <td
+                            style="
+                                color: var(--chip-open-text);
+                                font-weight: 600;
+                            "
+                        >
+                            Open Access
+                        </td>
+                        <td>
+                            <span class="chip chip-open" style="font-size: 11px"
+                                ><svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    style="width: 12px; height: 12px"
+                                >
+                                    <path
+                                        d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                                    />
+                                    <polyline points="7 10 12 15 17 10" />
+                                    <line x1="12" y1="15" x2="12" y2="3" />
+                                </svg>
+                                Open Data</span
+                            >
+                        </td>
+                        <td>
+                            You can browse and download everything, no
+                            conditions.
+                        </td>
+                        <td>
+                            Logged-in user with full download access to an
+                            open/public project.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td
+                            style="
+                                color: var(--chip-controlled-text);
+                                font-weight: 600;
+                            "
+                        >
+                            (not currently shown)
+                        </td>
+                        <td>
+                            <span
+                                class="chip chip-controlled"
+                                style="font-size: 11px"
+                                ><svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    style="width: 12px; height: 12px"
+                                >
+                                    <path
+                                        d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
+                                    />
+                                    <line x1="12" y1="8" x2="12" y2="12" />
+                                    <line x1="12" y1="16" x2="12.01" y2="16" />
+                                </svg>
+                                Conditions Required</span
+                            >
+                        </td>
+                        <td>
+                            Data requires meeting access requirements (e.g.
+                            signing a DUA, IRB approval).
+                        </td>
+                        <td>
+                            Logged-in user viewing a controlled-access project
+                            where conditions for use exist.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td
+                            style="
+                                color: var(--chip-signin-text);
+                                font-weight: 600;
+                            "
+                        >
+                            Sign In Required
+                        </td>
+                        <td>
+                            <span
+                                class="chip chip-signin"
+                                style="font-size: 11px"
+                                ><svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    style="width: 12px; height: 12px"
+                                >
+                                    <path
+                                        d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"
+                                    />
+                                    <polyline points="10 17 15 12 10 7" />
+                                    <line x1="15" y1="12" x2="3" y2="12" />
+                                </svg>
+                                Sign In to Download</span
+                            >
+                        </td>
+                        <td>
+                            Content is visible but you must create an account /
+                            sign in to download.
+                        </td>
+                        <td>Anonymous user viewing a public project.</td>
+                    </tr>
+                    <tr>
+                        <td
+                            style="
+                                color: var(--chip-denied-text);
+                                font-weight: 600;
+                            "
+                        >
+                            Access Denied
+                        </td>
+                        <td>
+                            <span
+                                class="chip chip-denied"
+                                style="font-size: 11px"
+                                ><svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    style="width: 12px; height: 12px"
+                                >
+                                    <circle cx="12" cy="12" r="10" />
+                                    <line
+                                        x1="4.93"
+                                        y1="4.93"
+                                        x2="19.07"
+                                        y2="19.07"
+                                    />
+                                </svg>
+                                No Download Access</span
+                            >
+                        </td>
+                        <td>
+                            You're logged in but you don't have permission to
+                            download.
+                        </td>
+                        <td>
+                            Logged-in user without download ACL on a
+                            private/controlled project.
+                        </td>
+                    </tr>
+                </table>
+                <div class="callout-blue">
+                    <strong>Why rename?</strong> The current badges ("Open
+                    Access", "Access Denied") are ambiguous — "access" could
+                    mean viewing, editing, or downloading. Since the primary
+                    gated action is <em>downloading data</em>, making the chips
+                    explicitly about download rights reduces confusion. "Open
+                    Data" aligns with common scientific data terminology. "No
+                    Download Access" is clearer than "Access Denied" which
+                    sounds like you can't even view the page. "Conditions
+                    Required" surfaces the controlled-access tier that currently
+                    has no badge at all.
+                </div>
+            </div>
+
+            <!-- Note 3: Scenarios -->
+            <div class="notes-card">
+                <h2>Scenario Coverage</h2>
+                <p>
+                    The six scenarios above attempt to cover the full permission
+                    landscape. Here's the matrix:
+                </p>
+                <table>
+                    <tr>
+                        <th>Scenario</th>
+                        <th>User</th>
+                        <th>Visibility</th>
+                        <th>Access Chip</th>
+                        <th>What it tests</th>
+                    </tr>
+                    <tr>
+                        <td>A</td>
+                        <td>Owner (logged in)</td>
+                        <td>Public</td>
+                        <td>Open Data</td>
+                        <td>Typical PI viewing their own public project</td>
+                    </tr>
+                    <tr>
+                        <td>B</td>
+                        <td>Owner (logged in)</td>
+                        <td>Private</td>
+                        <td><em>hidden</em></td>
+                        <td>
+                            Owner viewing their own private project — access
+                            chip is redundant (you always have full access to
+                            your own project)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>C</td>
+                        <td>Visitor (logged in)</td>
+                        <td>Public</td>
+                        <td>Open Data</td>
+                        <td>
+                            Researcher browsing UKB-PPP — can download freely
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>D</td>
+                        <td>Visitor (logged in)</td>
+                        <td>Public</td>
+                        <td>Conditions Required</td>
+                        <td>
+                            Researcher viewing a controlled-access project (e.g.
+                            DRI Multi-'omics) — needs to meet requirements
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>E</td>
+                        <td>Visitor (logged in)</td>
+                        <td>Private</td>
+                        <td>No Download Access</td>
+                        <td>
+                            Someone who can see the project page (via direct
+                            link) but has no download permission
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>F</td>
+                        <td>Anonymous</td>
+                        <td>Public</td>
+                        <td>Sign In to Download</td>
+                        <td>Not signed in, browsing a public project</td>
+                    </tr>
+                </table>
+                <div class="callout">
+                    <strong>Are we missing any?</strong> One edge case not
+                    covered: an anonymous user encountering a private project —
+                    but they'd never see the page at all (redirected to sign
+                    in), so there's no banner to show. Another edge: a logged-in
+                    user who has <em>partial</em> access (can download some
+                    files but not others, due to mixed ACLs on sub-folders). For
+                    v1, the chip could show the "most restrictive" access level
+                    applicable to the project root.
+                </div>
+            </div>
+        </div>
+
+        <!-- Backdrop -->
+        <div class="backdrop" id="backdrop" onclick="closeAllDropdowns()"></div>
+
+        <script>
+            // ── Scenario Data ──
+            const scenarios = [
+                {
+                    label: "A — My Public Project",
+                    name: "hi342892314",
+                    synId: "syn73743318",
+                    doi: "10.7303/syn73743318",
+                    visibility: "Public",
+                    visClass: "chip-public",
+                    visIcon: "globe",
+                    access: "Open Data",
+                    accessClass: "chip-open",
+                    accessIcon: "download",
+                    accessHidden: false,
+                    barPct: 0,
+                    barNote: "0% of 100 GB",
+                },
+                {
+                    label: "B — My Private Project",
+                    name: "My Internal Analysis Pipeline",
+                    synId: "syn98765432",
+                    doi: "10.7303/syn98765432",
+                    visibility: "Private",
+                    visClass: "chip-private",
+                    visIcon: "lock",
+                    access: "",
+                    accessClass: "",
+                    accessIcon: "",
+                    accessHidden: true, // Owner viewing own project — access chip is redundant
+                    barPct: 23,
+                    barNote: "23% of 100 GB",
+                },
+                {
+                    label: "C — External, Open Data",
+                    name: "UKB-PPP",
+                    synId: "syn51365307",
+                    doi: "10.7303/syn51365307",
+                    visibility: "Public",
+                    visClass: "chip-public",
+                    visIcon: "globe",
+                    access: "Open Data",
+                    accessClass: "chip-open",
+                    accessIcon: "download",
+                    accessHidden: false,
+                    barPct: 87,
+                    barNote: "87% of 100 GB",
+                },
+                {
+                    label: "D — External, Controlled",
+                    name: "UK DRI Multi-'omics Atlas Project",
+                    synId: "syn36812517",
+                    doi: "10.7303/syn36812517",
+                    visibility: "Public",
+                    visClass: "chip-public",
+                    visIcon: "globe",
+                    access: "Conditions Required",
+                    accessClass: "chip-controlled",
+                    accessIcon: "shield-alert",
+                    accessHidden: false,
+                    barPct: 42,
+                    barNote: "42% of 100 GB",
+                },
+                {
+                    label: "E — External, No Access",
+                    name: "Protected Clinical Cohort v3",
+                    synId: "syn44556677",
+                    doi: "10.7303/syn44556677",
+                    visibility: "Private",
+                    visClass: "chip-private",
+                    visIcon: "lock",
+                    access: "No Download Access",
+                    accessClass: "chip-denied",
+                    accessIcon: "no-entry",
+                    accessHidden: false,
+                    barPct: 65,
+                    barNote: "65% of 100 GB",
+                },
+                {
+                    label: "F — Not Signed In",
+                    name: "Next-Gen Preclinical Models of NF Type 1",
+                    synId: "syn26451327",
+                    doi: "10.7303/syn26451327",
+                    visibility: "Public",
+                    visClass: "chip-public",
+                    visIcon: "globe",
+                    access: "Sign In to Download",
+                    accessClass: "chip-signin",
+                    accessIcon: "login",
+                    accessHidden: false,
+                    barPct: 78,
+                    barNote: "78% of 100 GB",
+                },
+            ];
+
+            const icons = {
+                globe: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>',
+                lock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>',
+                download:
+                    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>',
+                "shield-alert":
+                    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
+                login: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>',
+                "no-entry":
+                    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>',
+            };
+
+            function switchScenario(idx) {
+                const s = scenarios[idx];
+
+                // Update scenario buttons
+                document
+                    .querySelectorAll(".scenario-btn")
+                    .forEach((b, i) => b.classList.toggle("active", i === idx));
+
+                // Current banner
+                document.getElementById("cur-name").textContent = s.name;
+                document.getElementById("cur-synid").textContent =
+                    s.synId + " \u{1F4CB}";
+                document.getElementById("cur-doi").textContent =
+                    "https://doi.org/" + s.doi;
+                document.getElementById("cur-bar").style.width = s.barPct + "%";
+
+                // Proposed banner
+                document.getElementById("prop-name").textContent = s.name;
+
+                const visChip = document.getElementById("vis-chip");
+                visChip.className = "chip " + s.visClass;
+                visChip.innerHTML =
+                    icons[s.visIcon] + "<span>" + s.visibility + "</span>";
+
+                const accessChip = document.getElementById("access-chip");
+                if (s.accessHidden) {
+                    accessChip.style.display = "none";
+                } else {
+                    accessChip.style.display = "inline-flex";
+                    accessChip.className = "chip " + s.accessClass;
+                    accessChip.innerHTML =
+                        icons[s.accessIcon] + "<span>" + s.access + "</span>";
+                }
+
+                // Dropdown
+                document.getElementById("dd-synid").textContent = s.synId;
+                document.getElementById("dd-doi").textContent = s.doi;
+                document.getElementById("dd-doi").href =
+                    "https://doi.org/" + s.doi;
+                document.getElementById("dd-bar").style.width = s.barPct + "%";
+                document.getElementById("dd-avail-note").textContent =
+                    s.barNote;
+            }
+
+            function toggleDropdown(id) {
+                const wrap = document.getElementById(id);
+                const isOpen = wrap.classList.contains("open");
+                closeAllDropdowns();
+                if (!isOpen) {
+                    wrap.classList.add("open");
+                    document.getElementById("backdrop").classList.add("show");
+                }
+            }
+            function closeAllDropdowns() {
+                document
+                    .querySelectorAll(".dropdown-wrap")
+                    .forEach((d) => d.classList.remove("open"));
+                document.getElementById("backdrop").classList.remove("show");
+            }
+
+            let starred = false;
+            function toggleStar() {
+                starred = !starred;
+                const btn = document.getElementById("star-btn");
+                btn.classList.toggle("starred", starred);
+                if (starred) {
+                    btn.innerHTML =
+                        '<svg viewBox="0 0 24 24" fill="#EAB308" stroke="#EAB308" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+                    btn.title = "Remove from favorites";
+                } else {
+                    btn.innerHTML =
+                        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+                    btn.title = "Add to favorites";
+                }
+            }
+        </script>
+    </body>
+</html>
